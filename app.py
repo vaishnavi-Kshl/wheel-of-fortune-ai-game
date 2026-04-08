@@ -456,7 +456,9 @@ def pick_puzzle(config: dict[str, Any], difficulty: str) -> dict[str, Any]:
 
 
 def create_session(store: dict[str, Any], body: dict[str, Any], replay_of: str | None = None) -> dict[str, Any]:
-    player_name = str(body.get("playerName") or "Player 1").strip()[:32] or "Player 1"
+    player_name = str(body.get("playerName") or "").strip()[:32]
+    if not player_name:
+        player_name = "Player 1"
     difficulty = str(body.get("difficulty") or "any").lower()
     puzzle = pick_puzzle(store["config"], difficulty)
     now = utc_now_iso()
@@ -574,9 +576,13 @@ def leaderboard(limit: int = Query(default=10)) -> dict[str, Any]:
 
 @app.post("/api/session", status_code=201)
 def start_session(body: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+    player_name = str(body.get("playerName") or "").strip()
+    if not player_name:
+        return error_response(400, "Player name is required")
+
     with store_lock:
         store = read_store()
-        session = create_session(store, body)
+        session = create_session(store, {**body, "playerName": player_name})
         write_store(store)
     return {"message": "Session created", "session": sanitize_session(session)}
 

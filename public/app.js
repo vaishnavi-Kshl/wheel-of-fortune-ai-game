@@ -231,11 +231,13 @@ function renderUsedLetters(letters = []) {
 
 function renderSession() {
   if (!state.session) {
+    document.body.classList.add("pre-session");
     elements.setupCard.hidden = false;
     elements.gameCard.hidden = true;
     return;
   }
 
+  document.body.classList.remove("pre-session");
   const s = state.session;
   const isActive = s.status === "active";
 
@@ -323,9 +325,16 @@ async function loadConfig() {
 
 async function handleStartSession(event) {
   event.preventDefault();
+  const playerName = elements.playerName.value.trim();
+  if (!playerName) {
+    setStatus("Player name is required.", true);
+    elements.playerName.focus();
+    return;
+  }
+
   try {
     const payload = {
-      playerName: elements.playerName.value,
+      playerName,
       difficulty: elements.difficultySelect.value
     };
     const data = await api("/api/session", {
@@ -501,6 +510,7 @@ async function init() {
     wireEvents();
     await loadConfig();
     await refreshLeaderboard();
+    renderSession();
 
     const saved = localStorage.getItem(sessionStorageKey);
     if (saved) {

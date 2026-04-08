@@ -77,6 +77,29 @@ body {
   grid-template-columns: 1fr;
 }
 
+body.pre-session .layout {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 2rem;
+}
+
+body.pre-session .setup {
+  width: min(520px, 94vw);
+  margin: 0 auto;
+}
+
+body.pre-session .side-panel {
+  display: none;
+}
+
+body.pre-session .hero {
+  padding-bottom: 0.5rem;
+}
+
 .card {
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
