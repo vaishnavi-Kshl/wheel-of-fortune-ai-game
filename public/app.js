@@ -508,9 +508,8 @@ function wireEvents() {
 async function init() {
   try {
     wireEvents();
-    await loadConfig();
-    await refreshLeaderboard();
     renderSession();
+    await Promise.all([loadConfig(), refreshLeaderboard()]);
 
     const saved = localStorage.getItem(sessionStorageKey);
     if (saved) {

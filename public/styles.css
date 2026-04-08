@@ -100,6 +100,15 @@ body.pre-session .hero {
   padding-bottom: 0.5rem;
 }
 
+.setup:not([hidden]) {
+  width: min(520px, 94vw);
+  margin: 0 auto;
+}
+
+.setup:not([hidden]) ~ .side-panel {
+  display: none;
+}
+
 .card {
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
@@ -419,6 +428,11 @@ input:focus, select:focus {
   .setup { grid-column: 2; grid-row: 1; }
   .side-panel { grid-column: 2; grid-row: 2; }
   .setup[hidden] ~ .side-panel { grid-row: 1; }
+  .setup:not([hidden]) {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+  }
   .wheel-puzzle-grid { grid-template-columns: 1fr; }
   #wheelCanvas { width: min(100%, 450px); }
   .controls-grid { grid-template-columns: repeat(2, 1fr); align-items: start;}
