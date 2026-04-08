@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fortune Spin Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <header class="hero">
+      <p class="hero-kicker"></p>
+      <h1>Fortune Spin Arena</h1>
+    </header>
+
+    <main class="layout">
+      <section class="card setup" id="setupCard">
+        <h2>Start Session</h2>
+        <form id="startForm" class="stack-form">
+          <label>
+            Player Name
+            <input type="text" id="playerName" maxlength="32" placeholder="Enter your name" />
+          </label>
+
+          <label>
+            Difficulty
+            <select id="difficultySelect">
+              <option value="any">Any</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn btn-primary">Create New Session</button>
+        </form>
+
+        <div class="resume-box">
+          <h3>Resume Session</h3>
+          <div class="inline-fields">
+            <input type="text" id="sessionIdInput" placeholder="Paste session ID" />
+            <button id="resumeBtn" class="btn">Resume</button>
+          </div>
+          <p class="tiny" id="resumeHint"></p>
+        </div>
+      </section>
+
+      <section class="card game" id="gameCard" hidden>
+        <div class="game-topbar">
+          <div>
+            <h2 id="playerHeading">Player</h2>
+            <p class="tiny" id="sessionMeta"></p>
+          </div>
+          <div class="score-pill">
+            <span>Score</span>
+            <strong id="scoreValue">0 coin</strong>
+          </div>
+        </div>
+
+        <div class="wheel-puzzle-grid">
+          <div class="wheel-area">
+            <canvas id="wheelCanvas" width="520" height="520"></canvas>
+            <div class="wheel-pointer" aria-hidden="true"></div>
+          </div>
+
+          <div class="puzzle-area">
+            <div class="puzzle-meta">
+              <span class="chip" id="categoryChip">Category</span>
+              <span class="chip" id="statusChip">ACTIVE</span>
+            </div>
+            <div id="puzzleBoard" class="puzzle-board"></div>
+            <p class="tiny" id="revealedMeta"></p>
+
+            <div class="used-letters">
+              <h3>Used Letters</h3>
+              <div id="usedLettersList" class="used-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control-block">
+            <h3>Spin</h3>
+            <button id="spinBtn" class="btn btn-primary">Spin Wheel</button>
+            <p class="tiny" id="spinNote">Spin and guess a consonant.</p>
+          </div>
+
+          <div class="control-block">
+            <h3>Guess Consonant</h3>
+            <div class="inline-fields">
+              <input maxlength="1" id="consonantInput" placeholder="B" />
+              <button id="guessConsonantBtn" class="btn">Guess</button>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <h3>Buy Vowel (<span id="vowelCostLabel">250 coin</span>)</h3>
+            <div class="inline-fields">
+              <input maxlength="1" id="vowelInput" placeholder="A" />
+              <button id="buyVowelBtn" class="btn">Buy</button>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <h3>Solve Puzzle</h3>
+            <div class="inline-fields">
+              <input id="solveInput" placeholder="Type full phrase" />
+              <button id="solveBtn" class="btn">Solve</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar" id="statusBar">Welcome! Start by spinning the wheel.</div>
+
+        <div class="actions-row">
+          <button id="replayBtn" class="btn">Replay New Round</button>
+          <button id="refreshSessionBtn" class="btn">Refresh Session</button>
+        </div>
+      </section>
+
+      <section class="card side-panel">
+        <div>
+          <h2>Leaderboard</h2>
+          <ol id="leaderboardList" class="leaderboard"></ol>
+        </div>
+
+        <div>
+          <h2>Session Timeline</h2>
+          <ul id="timelineList" class="timeline"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -9,7 +9,7 @@ A full Wheel-of-Fortune-inspired spin wheel game built with a **Python backend**
 - Puzzle board with category-based phrases
 - Consonant guessing (requires spin), vowel purchase system
 - Solve-the-puzzle flow with bonuses/penalties
-- Persistent backend scoring + sessions (JSON storage)
+- Persistent backend scoring + sessions (SQLite database)
 - Resume session via session ID
 - Replay support (create a new round from an existing session)
 - Leaderboard for completed rounds
@@ -19,7 +19,7 @@ A full Wheel-of-Fortune-inspired spin wheel game built with a **Python backend**
 
 - Frontend: Vanilla JavaScript + HTML/CSS
 - Backend: Python + FastAPI
-- Persistence: Local JSON file (`data/store.json`)
+- Persistence: SQLite (`data/game.db`)
 
 ## Project structure
 
@@ -28,8 +28,8 @@ A full Wheel-of-Fortune-inspired spin wheel game built with a **Python backend**
 - `public/styles.css` - responsive styling
 - `public/app.js` - game logic + API integration + wheel rendering/animation
 - `requirements.txt` - Python dependencies
-- `docs/PROMPT_HISTORY.md` - prompt and iteration history
-- `docs/DEMO_SCRIPT.md` - 2-3 minute demo flow
+- `PROMPT_HISTORY.md` - prompt and iteration history
+- `DEMO_SCRIPT.md` - 2-3 minute demo flow
 
 ## Run locally
 
@@ -57,6 +57,39 @@ Then open:
 ```text
 http://localhost:3000
 ```
+
+## Get One Public Link (Anyone Can Access)
+
+### Option A: Deploy to Render (recommended)
+
+1. Push this project to a GitHub repository.
+2. Go to Render dashboard and click `New +` -> `Blueprint`.
+3. Select your repo (this project includes `render.yaml`).
+4. Click deploy.
+5. Render will give you a public URL like:
+   `https://fortune-spin-arena.onrender.com`
+
+Notes:
+- The app is already configured for Render with:
+  - `render.yaml`
+  - `Procfile`
+- SQLite on free hosting may be ephemeral, so data can reset after restarts.
+
+### Option B: Temporary public link from your laptop (quick demo)
+
+Start your app locally:
+
+```bash
+uvicorn app:app --reload --port 3000
+```
+
+Then run:
+
+```bash
+ssh -R 80:localhost:3000 nokey@localhost.run
+```
+
+This gives a public URL instantly, but it is temporary (good for sharing demos).
 
 ## API overview
 
@@ -88,5 +121,6 @@ http://localhost:3000
 
 ## Notes
 
-- Data is stored in `data/store.json`.
-- For production use, migrate JSON storage to PostgreSQL/MongoDB and add authentication.
+- Data is stored in `data/game.db`.
+- On startup, legacy `data/store.json` data is auto-migrated into SQLite if present.
+- For production use, consider PostgreSQL and add authentication.
