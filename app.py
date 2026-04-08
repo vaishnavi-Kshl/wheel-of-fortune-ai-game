@@ -827,3 +827,4 @@ def root() -> FileResponse:
 
 
 app.mount("/", StaticFiles(directory=str(PUBLIC_DIR), html=True), name="static")
+
